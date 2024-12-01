@@ -1,6 +1,7 @@
 from django.db import models
 
 
+# Promotion model to store promotional offers
 class Promotion(models.Model):
     description = models.CharField(max_length=225)
     discount = models.FloatField()
@@ -9,6 +10,11 @@ class Promotion(models.Model):
 # Collection model to group products
 class Collection(models.Model):
     title = models.CharField(max_length=225)
+    feature_product = models.ForeignKey(
+        'Product',
+        on_delete=models.SET_NULL,
+        null=True,
+        related_name='+')
 
 
 # Product model to represent individual items in the store
@@ -51,6 +57,7 @@ class Order(models.Model):
     PAYMENT_STATUS_PENDING = 'P'
     PAYMENT_STATUS_COMPLETED = 'C'
     PAYMENT_STATUS_FAILED = 'F'
+
     customer = models.ForeignKey(Customer, on_delete=models.PROTECT)
 
     PAYMENT_STATUS_CHOICES = [
